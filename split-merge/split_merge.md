@@ -12,6 +12,7 @@
 ## 코드 설명
 
 - `get_x_count.py` `get_x_count.cpp` - 과정 $X$의 최소 실행 횟수를 구하는 코드이다.
+- `get_x_list.py` `get_x_list.cpp` - 각각의 과정 $X$에서의 양의 정수 $x$의 값의 배열을 구하는 코드이다.
 
 ## 참고 자료
 
