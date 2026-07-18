@@ -6,7 +6,6 @@ constexpr int INF = 1e9;
 std::vector<int> solve(int n, std::vector<int>& a) {
     std::vector<int> max_pos(n + 1, 0);
     std::vector<int> min_pos(n + 1, INF);
-    int val;
     for (int i = 1; i <= n; i++) {
         int val = a[i];
         if (max_pos[val] < i) {

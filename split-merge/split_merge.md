@@ -13,6 +13,11 @@
 
 - `get_x_count.py` `get_x_count.cpp` - 과정 $X$의 최소 실행 횟수를 구하는 코드이다.
 - `get_x_list.py` `get_x_list.cpp` - 각각의 과정 $X$에서의 양의 정수 $x$의 값의 배열을 구하는 코드이다.
+- `get_x_list_extended.py` `get_x_list_extended.cpp` - 수열 $A$의 일부 원소가 $N$보다 크거나 $1$보다 작은 경우에도 $x$의 값을 구할 수 있는 코드이다.
+
+## 참고
+
+- `C++` 코드는 모두 $-10^9 < A_i < 10^9$일 때에만 작동한다.
 
 ## 참고 자료
 
