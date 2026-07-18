@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <unordered_map>
 
 constexpr int INF = 1e9;
 
@@ -27,7 +26,7 @@ std::vector<int> bucket_merge_sort(int n, std::vector<int>& a) {
             min_pos[offset_val] = i + 1;
         }
     }
-    std::unordered_map<int, int> bucket_num;
+    std::vector<int> bucket_num(length);
     int pre = -1;
     int set_num = 0;
     for (int i = 0; i < length; i++) {
@@ -37,16 +36,16 @@ std::vector<int> bucket_merge_sort(int n, std::vector<int>& a) {
         if (pre != -1 && min_pos[i] < max_pos[pre]) {
             set_num++;
         }
-        bucket_num[i + mn] = set_num;
+        bucket_num[i] = set_num;
         pre = i;
     }
     std::vector<std::vector<int>> buckets(set_num + 1);
     for (int val: a) {
-        buckets[bucket_num[val]].push_back(val);
+        buckets[bucket_num[val - mn]].push_back(val);
     }
     std::vector<int> ans(n);
     int idx = 0;
-    for (std::vector<int> bucket: buckets) {
+    for (std::vector<int>& bucket: buckets) {
         for (int val: bucket) {
             ans[idx++] = val;
         }
