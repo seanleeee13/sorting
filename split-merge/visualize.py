@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from matplotlib.widgets import Button, Slider
 from threading import Timer
-import numpy as np
 import random
 import math
 
@@ -24,7 +23,7 @@ length = 16
 buckets = []
 original_y = []
 
-def bucket_merge_sort_data(n, a):
+def split_merge_sort_data(n, a):
     mx = -math.inf
     mn = math.inf
     for val in a:
@@ -42,21 +41,14 @@ def bucket_merge_sort_data(n, a):
         if min_pos[offset_val] > i + 1:
             min_pos[offset_val] = i + 1
     x_list = []
-    bucket_set = {}
     pre = -1
-    set_num = 0
     for i in range(length):
         if min_pos[i] == math.inf:
             continue
         if pre != -1 and min_pos[i] < max_pos[pre]:
             x_list.append(pre + mn)
-            set_num += 1
-        bucket_set[i + mn] = set_num
         pre = i
-    buckets = [[] for _ in range(set_num + 1)]
-    for i, val in enumerate(a):
-        buckets[bucket_set[val]].append(i)
-    return x_list, bucket_set, buckets
+    return x_list
 
 def clear():
     global x_val, y_val, colors, x_list, bars, lines, original_y
@@ -81,12 +73,13 @@ ax.set_xlim(-1, 16)
 ax.set_ylim(0, length // 2 + 1)
 is_checking = False
 
-buc_num = 0
-idx = 0
+step = 0
+phase = 0
+b_length = 0
 fidx = 0
 
 def update():
-    global is_running, buc_num, idx, fidx, y_val, colors, is_checking
+    global step, b_length, y_val, x_val, A_indices, low_idx_list, is_running, sub_idx, insert_pos, phase, is_checking, fidx
     if not is_running:
         timer.stop()
         return
@@ -97,27 +90,50 @@ def update():
         fig.canvas.draw_idle()
         if fidx >= length:
             is_running = False
-    else:
-        orig_idx = buckets[buc_num][idx]
-        target_value = original_y[orig_idx]
-        actual_idx = y_val.index(target_value, fidx)
-        y_val.pop(actual_idx)
-        y_val.insert(fidx, target_value)
-        new_segments = [[[-1, y], [length, y]] for y in y_val]
-        lines.set_segments(new_segments)
-        for i, bar in enumerate(bars):
-            bar.set_height(y_val[i])
-            current_orig_value = y_val[i]
-            matched_orig_idx = original_y.index(current_orig_value)
-            bar.set_color(colors[matched_orig_idx])
-        fidx += 1
-        idx += 1
-        if idx >= len(buckets[buc_num]):
-            idx = 0
-            buc_num += 1
-            if buc_num >= len(buckets):
-                is_checking = True
-                fidx = 0
+        return
+    if len(x_list) <= phase:
+        A_indices = list(range(b_length, length))
+        for i in A_indices:
+            bars[i].set_color("#0000FF")
+        lines.set_segments([])
+        is_checking = True
+        return
+    if step == 0:
+        A_indices = list(range(b_length, length))
+        x_val = x_list[phase]
+        lines.set_segments([[[-1, x_val], [length, x_val]]])
+        low_idx_list = []
+        for i in A_indices:
+            if y_val[i] <= x_val:
+                low_idx_list.append(i)
+                bars[i].set_color("#0000FF")
+            else:
+                bars[i].set_color("#FF0000")
+        sub_idx = 0
+        insert_pos = b_length
+        step = 1
+    elif step == 1:
+        if sub_idx < len(low_idx_list):
+            old_idx = low_idx_list[sub_idx]
+            actual_idx = y_val.index(y_val[old_idx], insert_pos)
+            target_val = y_val.pop(actual_idx)
+            y_val.insert(insert_pos, target_val)
+            for i, bar in enumerate(bars):
+                bar.set_height(y_val[i])
+            for i, bar in enumerate(bars):
+                if i < b_length + sub_idx + 1:
+                    bar.set_color("#0000FF")
+                else:
+                    if y_val[i] <= x_val:
+                        bar.set_color("#0000FF")
+                    else:
+                        bar.set_color("#FF0000")
+            insert_pos += 1
+            sub_idx += 1
+        else:
+            b_length += len(low_idx_list)
+            phase += 1
+            step = 0
     fig.canvas.draw_idle()
 
 timer = fig.canvas.new_timer(interval=int(1 if length >= 32 else 50))
@@ -137,27 +153,23 @@ def generate(event):
         fig.canvas.draw_idle()
 
 def start(event):
-    global is_running, x_list, colormap, buckets, buc_num, idx, fidx, original_y, colors, is_ready
+    global is_running, x_list, fidx, original_y, colors, is_ready, step, phase, b_length
     if not is_running and is_ready:
         is_ready = False
+        b_length = 0
+        fidx = 0
         is_running = True
         original_y = list(y_val)
-        x_list, bucket_set, buckets = bucket_merge_sort_data(len(y_val), y_val)
-        colormap = [plt.cm.gist_rainbow(i) for i in np.linspace(0, 0.85, len(buckets))]
+        x_list = split_merge_sort_data(len(y_val), y_val)
+        step = 0
+        phase = 0
         colors = ["white"] * length
-        for i, h in enumerate(y_val):
-            colors[i] = colormap[bucket_set[h]]
+        for i in range(length):
             bars[i].set_color(colors[i])
-        new_segments = [
-            [[-1, x_data], [length, x_data]]
-            for x_data in x_list
-        ]
-        buc_num = 0
-        idx = 0
-        fidx = 0
+        new_segments = []
         lines.set_segments(new_segments)
         fig.canvas.draw_idle()
-        Timer(0.5, timer.start).start()
+        Timer(1.0, timer.start).start()
 
 def reset(event):
     global is_running, is_ready, is_checking

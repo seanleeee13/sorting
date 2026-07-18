@@ -32,6 +32,7 @@
 | `get_x_list.py` | `get_x_list.cpp` | 각각의 과정 $X$에서의 양의 정수 $x$의 값의 배열을 구하는 코드이다. |
 | `get_x_list_extended.py` | `get_x_list_extended.cpp` | 수열 $A$의 일부 원소가 $N$보다 크거나 $1$보다 작은 경우에도 $x$의 값을 구하는 코드이다. |
 | `sort.py` | `sort.cpp` | 스플릿 머지 정렬을 수행하는 코드이다. |
+| `visualize.py` | &nbsp; | 스플릿 머지 정렬을 시각화하는 코드이다. |
 
 ## 참고
 
