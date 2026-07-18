@@ -1,7 +1,7 @@
 import sys
 import math
 
-def solve(n, a):
+def bucket_merge_sort(n, a):
     mx = -math.inf
     mn = math.inf
     for val in a:
@@ -39,5 +39,5 @@ def solve(n, a):
 if __name__ == "__main__":
     n = int(input())
     a = list(map(int, sys.stdin.readline().split()))
-    ans = solve(n, a)
+    ans = bucket_merge_sort(n, a)
     print(*ans)

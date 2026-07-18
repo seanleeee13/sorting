@@ -1,10 +1,10 @@
 #include <iostream>
 #include <vector>
-#include <map>
+#include <unordered_map>
 
 constexpr int INF = 1e9;
 
-std::vector<int> solve(int n, std::vector<int>& a) {
+std::vector<int> bucket_merge_sort(int n, std::vector<int>& a) {
     int mx = -INF;
     int mn = INF;
     for (int val: a) {
@@ -27,7 +27,7 @@ std::vector<int> solve(int n, std::vector<int>& a) {
             min_pos[offset_val] = i + 1;
         }
     }
-    std::map<int, int> bucket_num;
+    std::unordered_map<int, int> bucket_num;
     int pre = -1;
     int set_num = 0;
     for (int i = 0; i < length; i++) {
@@ -63,7 +63,7 @@ int main() {
     for (int i = 0; i < n; i++) {
         std::cin >> a[i];
     }
-    std::vector<int> ans = solve(n, a);
+    std::vector<int> ans = bucket_merge_sort(n, a);
     for (int i = 0; i < n; i++) {
         std::cout << ans[i] << " ";
     }
