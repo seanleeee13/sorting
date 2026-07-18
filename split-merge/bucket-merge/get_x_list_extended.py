@@ -1,7 +1,7 @@
 import sys
 import math
 
-def bucket_merge_sort(n, a):
+def solve(n, a):
     mx = -math.inf
     mn = math.inf
     for val in a:
@@ -18,26 +18,18 @@ def bucket_merge_sort(n, a):
             max_pos[offset_val] = i + 1
         if min_pos[offset_val] > i + 1:
             min_pos[offset_val] = i + 1
-    bucket_num = [0] * length
+    ans = []
     pre = -1
-    set_num = 0
     for i in range(length):
         if min_pos[i] == math.inf:
             continue
         if pre != -1 and min_pos[i] < max_pos[pre]:
-            set_num += 1
-        bucket_num[i] = set_num
+            ans.append(pre + mn)
         pre = i
-    buckets = [[] for _ in range(set_num + 1)]
-    for val in a:
-        buckets[bucket_num[val - mn]].append(val)
-    ans = []
-    for bucket in buckets:
-        ans.extend(bucket)
     return ans
 
 if __name__ == "__main__":
     n = int(input())
     a = list(map(int, sys.stdin.readline().split()))
-    ans = bucket_merge_sort(n, a)
+    ans = solve(n, a)
     print(*ans)
