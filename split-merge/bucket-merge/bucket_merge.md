@@ -28,6 +28,7 @@
 | `get_bucket_set.py` | `get_bucket_set.cpp` | 수열의 각 값이 어떤 버킷에 해당하는지 전처리한 값을 구하는 코드이다. |
 | `get_bucket_list.py` | `get_bucket_list.cpp` | 수열 $A$의 각 값을 $(-\infty,x_1], (x_1,x_2],⋯,(x_k,\infty)$로 분류한 버킷의 배열을 구하는 코드이다. |
 | `sort.py` | `sort.cpp` | 버킷 머지 정렬을 수행하는 코드이다. |
+| `visualize.py` | &nbsp; | 버킷 머지 정렬을 시각화하는 코드이다. |
 
 ## 참고
 

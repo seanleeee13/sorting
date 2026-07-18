@@ -51,7 +51,7 @@ std::vector<int> solve(int n, std::vector<int>& a) {
         ans = above;
     }
     b.insert(b.end(), ans.begin(), ans.end());
-    ans = b;
+    ans = std::move(b);
     return ans;
 }
 
