@@ -1,4 +1,12 @@
-# 스플릿 머지 정렬
+# Split-Merge Sort
+
+- 스플릿 머지 정렬
+
+## 특징
+
+- 시간복잡도: $O(N^2+K)$
+- 공간복잡도: $O(N+K)$
+- $N$: 배열의 크기, $K$: 배열의 최댓값과 최솟값의 차
 
 ## 정렬 방법
 
@@ -9,7 +17,17 @@
 3. 수열 $A$의 원소 중 값이 $x$ 초과인 원소들을 원래 순서대로 추출하여 부분 수열 $C$를 만든다.
 4. 기존 수열 $A$를, $B$와 $C$를 순서대로 이어 붙인 수열($B+C$)로 대체한다.
 
-## 심화 응용
+## Bucket-Merge Sort
+
+- 버킷 머지 정렬
+
+### 특징
+
+- 시간복잡도: $O(N+K)$
+- 공간복잡도: $O(N+K)$
+- $N$: 배열의 크기, $K$: 배열의 최댓값과 최솟값의 차
+
+### 정렬 방법
 
 길이가 $N$인 수열 $A=[A_1,A_2,⋯,A_N]$가 있다.
 
@@ -21,11 +39,14 @@
 
 ## 코드 설명
 
-- `get_x_count.py` `get_x_count.cpp` - 과정 $X$의 최소 실행 횟수를 구하는 코드이다.
-- `get_x_list.py` `get_x_list.cpp` - 각각의 과정 $X$에서의 양의 정수 $x$의 값의 배열을 구하는 코드이다.
-- `get_x_list_extended.py` `get_x_list_extended.cpp` - 수열 $A$의 일부 원소가 $N$보다 크거나 $1$보다 작은 경우에도 $x$의 값을 구하는 코드이다.
-- `get_bucket_set.py` `get_bucket_set.cpp` - 수열의 각 값이 어떤 버킷에 해당하는지 전처리한 값을 구하는 코드이다.
-- `get_bucket_list.py` `get_bucket_list.cpp` - 수열 $A$의 각 값을 $(-\infty,x_1], (x_1,x_2],⋯,(x_k,\infty)$로 분류한 버킷의 배열을 구하는 코드이다.
+| Python 소스 코드 | C++ 소스 코드 | 설명 |
+|-|-|-|
+| `get_x_count.py` | `get_x_count.cpp` | 과정 $X$의 최소 실행 횟수를 구하는 코드이다. |
+| `get_x_list.py` | `get_x_list.cpp` | 각각의 과정 $X$에서의 양의 정수 $x$의 값의 배열을 구하는 코드이다. |
+| `get_x_list_extended.py` | `get_x_list_extended.cpp` | 수열 $A$의 일부 원소가 $N$보다 크거나 $1$보다 작은 경우에도 $x$의 값을 구하는 코드이다. |
+| `get_bucket_set.py` | `get_bucket_set.cpp` | 수열의 각 값이 어떤 버킷에 해당하는지 전처리한 값을 구하는 코드이다. |
+| `get_bucket_list.py` | `get_bucket_list.cpp` | 수열 $A$의 각 값을 $(-\infty,x_1], (x_1,x_2],⋯,(x_k,\infty)$로 분류한 버킷의 배열을 구하는 코드이다. |
+| `sort.py` | `sort.cpp` | 버킷 머지 정렬을 수행하는 코드이다. |
 
 ## 참고
 
