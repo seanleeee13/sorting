@@ -18,13 +18,15 @@ def solve(n, a):
             max_pos[offset_val] = i + 1
         if min_pos[offset_val] > i + 1:
             min_pos[offset_val] = i + 1
-    ans = []
+    ans = {}
     pre = -1
+    set_num = 0
     for i in range(length):
         if min_pos[i] == math.inf:
             continue
         if pre != -1 and min_pos[i] < max_pos[pre]:
-            ans.append(pre + mn)
+            set_num += 1
+        ans[i + mn] = set_num
         pre = i
     return ans
 
@@ -32,4 +34,4 @@ if __name__ == "__main__":
     n = int(input())
     a = list(map(int, sys.stdin.readline().split()))
     ans = solve(n, a)
-    print(*ans)
+    print(", ".join([f"{k}: {v}" for k, v in ans.items()]))

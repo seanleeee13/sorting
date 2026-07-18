@@ -1,9 +1,10 @@
 #include <iostream>
 #include <vector>
+#include <map>
 
 constexpr int INF = 1e9;
 
-std::vector<int> solve(int n, std::vector<int>& a) {
+std::map<int, int> solve(int n, std::vector<int>& a) {
     int mx = -INF;
     int mn = INF;
     for (int val: a) {
@@ -26,15 +27,17 @@ std::vector<int> solve(int n, std::vector<int>& a) {
             min_pos[offset_val] = i + 1;
         }
     }
-    std::vector<int> ans;
+    std::map<int, int> ans;
     int pre = -1;
+    int set_num = 0;
     for (int i = 0; i < length; i++) {
         if (min_pos[i] == INF) {
             continue;
         }
         if (pre != -1 && min_pos[i] < max_pos[pre]) {
-            ans.push_back(pre + mn);
+            set_num++;
         }
+        ans[i + mn] = set_num;
         pre = i;
     }
     return ans;
@@ -49,9 +52,14 @@ int main() {
     for (int i = 0; i < n; i++) {
         std::cin >> a[i];
     }
-    std::vector<int> ans = solve(n, a);
-    for (int x: ans) {
-        std::cout << x << " ";
+    std::map<int, int> ans = solve(n, a);
+    bool is_first = true;
+    for (const auto& [key, value]: ans) {
+        if (!is_first) {
+            std::cout << ", ";
+        }
+        std::cout << key << ": " << value;
+        is_first = false;
     }
     std::cout << "\n";
 }

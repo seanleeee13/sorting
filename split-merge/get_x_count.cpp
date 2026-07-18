@@ -16,8 +16,8 @@ int solve(int n, std::vector<int>& a) {
             min_pos[val] = i;
         }
     }
-    int pre = 0;
     int ans = 0;
+    int pre = 0;
     for (int i = 1; i <= n; i++) {
         if (max_pos[i] == 0) {
             continue;
